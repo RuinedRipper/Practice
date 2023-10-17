@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Day 2</title>
+    <style>
+      .center {
+        text-align: center;
+      }
+
+      .red {
+        color: red;
+      }
+
+      .black {
+        color: black;
+      }
+
+      table {
+        margin-top: 20px;
+        font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+        text-align: center;
+        border-collapse: collapse;
+        border-spacing: 5px;
+        background: #e1e3e0;
+        border-radius: 20px;
+        margin: 0 auto;
+      }
+
+      th {
+        font-size: 22px;
+        font-weight: 300;
+        padding: 12px 10px;
+        border-bottom: 2px solid #f56433;
+        color: #f56433;
+      }
+
+      tbody tr:nth-child(2) {
+        border-bottom: 2px solid #f56433;
+      }
+
+      td {
+        padding: 10px;
+        color: #8d8173;
+      }
+
+      button {
+        background-color: #ff1100;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+
+      button:hover {
+        background-color: #ac1616;
+        cursor: pointer;
+      }
+
+      .filter {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center" id="app">
+      <h1>Пошук</h1>
+      <input class="filter" type="text" name="search" v-model="search" />
+      <table>
+        <thead>
+          <tr>
+            <th>ПІБ</th>
+            <th>Група</th>
+            <th>Рік народження</th>
+            <th>Здав практичну</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody v-for="st in students">
+          <tr>
+            <td
+              :class="st.fullName.includes(search) && search!==''  ? 'red' : 'black'"
+            >
+              {{ st.fullName }}
+            </td>
+            <td>{{ st.group }}</td>
+            <td>{{ st.birthYear }}</td>
+            <td>
+              <input
+                type="checkbox"
+                name="isPassedExam"
+                v-model="st.isPassedExam"
+              />
+            </td>
+            <td>
+              <button @click="deleteStudent(st)">Видалити</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    var studentsArray = [
+      {
+        fullName: "Адамчук Микола Андрійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Бовтута Максим Олександрович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Бойко Данііл Олександрович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Болдін Данило Віталійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Горбачова Анастасія Сергіївна",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Демидьонок Роман Юрійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Долинний Олексій Максимович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Звірько Олександр Антонович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Іванов Володимир Віталійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Коваль Карина Євгенівна",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Коломоєць Ярослав Олександрович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Лиходід Михайло Віталійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Пастушенко Олександр Сергійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Сич Олексій Романович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Соломін Данило Валерійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Тименко Дмитро Євгенійович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Утюж Анна Валеріївна",
+        group: "РПЗ 20-1/9",
+        birthYear: 2006,
+        isPassedExam: false,
+      },
+      {
+        fullName: "Ушаков Ростислав Євгенович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+      {
+        fullName: "Чупрун Дмитро Олександрович",
+        group: "РПЗ 20-1/9",
+        birthYear: 2005,
+        isPassedExam: true,
+      },
+    ];
+
+    // Options API
+    //
+    const app = Vue.createApp({
+      data() {
+        return {
+          students: studentsArray,
+          search: "",
+        };
+      },
+      methods: {
+        deleteStudent(student) {
+          this.students = this.students.filter((st) => st !== student);
+        },
+      },
+    });
+    app.mount("#app");
+
+    // Composition API
+    //
+    // const { createApp, ref, computed } = Vue;
+    // createApp({
+    //   setup() {
+    //     let students = ref(studentsArray);
+    //     let search = ref("");
+
+    //     const deleteStudent = (student) => {
+    //       students.value = [...students.value].filter((st) => {
+    //         return st !== student;
+    //       });
+    //     };
+    //     return { students, search, deleteStudent };
+    //   },
+    // }).mount("#app");
+  </script>
+</html>
