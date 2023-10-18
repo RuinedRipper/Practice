@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise 1</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <span style="font-size: 25px; margin: 20px">Enter Age:</span>
+      <input v-model.number="age" type="number" />
+      <span style="font-size: 25px; margin: 20px">Enter Message:</span>
+      <input v-model.lazy="msg" />
+      <span style="font-size: 25px; margin: 20px">Enter Message: </span>
+      <input v-model.trim="message" />
+      <div>Age: {{ age }}</div>
+      <div>Message: {{ msg }}</div>
+      <div>Message: {{ message }}</div>
+    </div>
+  </body>
+  <script>
+    // Options API
+    const app = Vue.createApp({
+      data() {
+        return {
+          age: "",
+          msg: "",
+          message: "",
+        };
+      },
+    });
+    app.mount("#app");
+
+    // //Composition API
+    // const { createApp, ref, computed } = Vue;
+    // createApp({
+    //   setup() {
+    //     let age = ref("");
+    //     let msg = ref("");
+    //     let message = ref("");
+    //     return { age, msg, message };
+    //   },
+    // }).mount("#app");
+  </script>
+</html>
