@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>LocalStorage</title>
+    <link id="theme" rel="stylesheet" type="text/css" href="lightTheme.css" />
+    <style>
+      .center {
+        text-align: center;
+      }
+
+      .theme-switcher {
+        display: inline-block;
+        margin: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1
+      class="center"
+      style="font-family: 'Lucida Sans Unicode', 'Lucida Grande', Sans-Serif"
+    >
+      Зміна теми оформлення
+    </h1>
+    <div class="center">
+      <div class="theme-switcher">
+        <label
+          for="lightTheme"
+          style="
+            font-family: 'Lucida Sans Unicode', 'Lucida Grande', Sans-Serif;
+          "
+          >Світла тема</label
+        >
+        <input
+          type="radio"
+          name="theme"
+          id="lightTheme"
+          value="lightTheme.css"
+        />
+      </div>
+
+      <div class="theme-switcher">
+        <label
+          for="darkTheme"
+          style="
+            font-family: 'Lucida Sans Unicode', 'Lucida Grande', Sans-Serif;
+          "
+          >Темна тема</label
+        >
+        <input type="radio" name="theme" id="darkTheme" value="darkTheme.css" />
+      </div>
+    </div>
+    <script>
+      const themeRadioButtons = document.querySelectorAll(
+        'input[name="theme"]'
+      );
+      const currentTheme = localStorage.getItem("theme");
+
+      if (currentTheme) {
+        document.getElementById("theme").href = currentTheme;
+        const selectedThemeRadio = document.querySelector(
+          `input[value="${currentTheme}"]`
+        );
+        if (selectedThemeRadio) {
+          selectedThemeRadio.checked = true;
+        }
+      }
+
+      themeRadioButtons.forEach((radioButton) => {
+        radioButton.addEventListener("change", (event) => {
+          const selectedTheme = event.target.value;
+          document.getElementById("theme").href = selectedTheme;
+          localStorage.setItem("theme", selectedTheme);
+        });
+      });
+    </script>
+  </body>
+</html>
