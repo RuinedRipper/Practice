@@ -3,6 +3,7 @@
     :class="
       store.state.selectedTheme === 'light' ? 'light-theme' : 'dark-theme'
     "
+style="height: 100vh"
   >
     <router-link v-bind:to="'/'" class="mainLink">
       <h1 :class="store.state.selectedTheme === 'light' ? 'white' : 'black'">
